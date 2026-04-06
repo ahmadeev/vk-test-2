@@ -1,1 +1,11 @@
+.all-cats__container {
+    column-count: 4;
+    column-gap: 0.75rem;
 
+    box-sizing: border-box;
+}
+
+.all-cats__card, .all-cats__container > div {
+    break-inside: avoid;
+    margin-bottom: 0.75rem;
+}

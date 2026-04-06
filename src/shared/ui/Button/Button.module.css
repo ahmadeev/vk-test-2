@@ -1,0 +1,64 @@
+/* todo: сделать менее специфичным и добавить красивый аутлайн */
+:is(.button, .button:focus) {
+    outline: none;
+    border: none;
+}
+
+.button {
+    transition: color,fill,background-color 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    cursor: pointer;
+}
+
+.primary {
+    background-color: #535bf2;
+    color: white;
+}
+
+.primary:hover {
+    background-color: #4e56df;
+    transform: scale(1.01);
+}
+
+/*.secondary {
+    background-color: var(--accent-background-color);
+}
+
+.secondary:hover {
+    background-color: var(--third-background-color);
+}*/
+
+.link {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    color: #646cff;
+}
+
+.link:hover {
+    color: rgba(100, 108, 255, 0.68);
+}
+
+.link:focus {
+    outline: none;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.button svg {
+    fill: #646cff;
+}
+
+.button:hover svg {
+    fill: rgba(100, 108, 255, 0.68);
+}

@@ -6,7 +6,10 @@ export default function App() {
     return (
         <>
             <Navbar />
-            <Outlet />
+            <div style={{
+                padding: '4rem 4rem',
+            }}><Outlet/></div>
+
         </>
     );
 }

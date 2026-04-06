@@ -1,4 +1,7 @@
 :root {
+  max-width: 100%;
+  overflow-x: hidden;
+
   --primary-bg: #2196f3;
   --primary-bg-hover: #1E88E5;
 
