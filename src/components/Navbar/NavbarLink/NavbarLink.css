@@ -1,0 +1,17 @@
+.navbar-link__container {
+    height: 100%;
+    width: fit-content;
+    padding: 0 1rem;
+    color: var(--alt-font);
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background-color 0.2s ease;
+}
+
+.navbar-link__container:hover {
+    background-color: var(--primary-bg-hover);
+}
