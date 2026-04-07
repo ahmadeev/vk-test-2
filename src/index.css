@@ -1,7 +1,4 @@
 :root {
-  max-width: 100%;
-  overflow-x: hidden;
-
   --primary-bg: #2196f3;
   --primary-bg-active: #1E88E5;
   --primary-bg-hover: #44a2ef;
@@ -22,7 +19,10 @@
 }
 
 #root {
+  max-width: 100%;
+  min-width: 360px;
   width: 100%;
+  /*overflow-x: hidden;*/
   margin: 0 auto;
   text-align: center;
   min-height: 100svh;
