@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './NavbarLink.css';
 
 interface Props {
@@ -8,11 +8,11 @@ interface Props {
 
 export default function NavbarLink({ title, path }: Props) {
     return (
-        <Link
-            className={'navbar-link__container'}
+        <NavLink
+            className={({ isActive }) => `navbar-link__container ${isActive ? 'active' : ''}`}
             to={path}
         >
             {title}
-        </Link>
+        </NavLink>
     );
 }

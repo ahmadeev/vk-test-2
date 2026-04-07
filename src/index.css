@@ -3,7 +3,8 @@
   overflow-x: hidden;
 
   --primary-bg: #2196f3;
-  --primary-bg-hover: #1E88E5;
+  --primary-bg-active: #1E88E5;
+  --primary-bg-hover: #44a2ef;
 
   --font: #000000;
   --alt-font: #FFFFFF;
@@ -11,6 +12,8 @@
   --fav-color: #F24E1E;
 
   color-scheme: light;
+
+  font-family: "Roboto", sans-serif;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

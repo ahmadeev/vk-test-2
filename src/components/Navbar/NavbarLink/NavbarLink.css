@@ -12,6 +12,10 @@
     transition: background-color 0.2s ease;
 }
 
+.navbar-link__container.active {
+    background-color: var(--primary-bg-active);
+}
+
 .navbar-link__container:hover {
     background-color: var(--primary-bg-hover);
 }
