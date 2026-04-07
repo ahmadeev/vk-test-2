@@ -1,12 +1,12 @@
 import './CatCard.css';
-import type { CatCardData } from '../../shared/types/types.ts';
 import Like from '../../shared/icons/favorite_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg?react';
 import LikeFilled from '../../shared/icons/favorite_24dp_1F1F1F_FILL1_wght400_GRAD0_opsz24.svg?react';
 import { Button } from '../../shared/ui/Button/Button.tsx';
 import { useState } from 'react';
 import { useFavoriteCatsContext } from '../../contexts/FavoriteCats/hook.ts';
+import type { CatCard } from '../../api/cats/dto.ts';
 
-type CatCardProps = CatCardData & { isLiked: boolean };
+type CatCardProps = CatCard & { isLiked: boolean };
 
 export default function CatCard({ id, url, isLiked }: CatCardProps) {
     const [isFilled, setIsFilled] = useState(isLiked);
