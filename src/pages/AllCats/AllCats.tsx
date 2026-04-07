@@ -23,12 +23,16 @@ export default function AllCats() {
             return catsService.findAll(pageParam, limit);
         },
         initialPageParam: 0,
-        getNextPageParam: (_1, _2, lastPageParam) => {
+        getNextPageParam: (lastPage, _2, lastPageParam) => {
             if (lastPageParam === 0) {
-                return FIRST_LIMIT;
+                return 2;
             }
 
-            return lastPageParam + NEXT_LIMIT;
+            if (lastPage.length === 0) {
+                return lastPageParam;
+            }
+
+            return lastPageParam + 1;
         },
     });
 
