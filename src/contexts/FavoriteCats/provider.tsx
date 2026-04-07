@@ -1,7 +1,7 @@
 import { type ReactNode, useState } from 'react';
 import { FavoriteCatsContext } from './context.ts';
-import { loadFavorites } from '../../utils.ts';
-import type { FavoriteCats } from '../../types/types.ts';
+import { loadFavorites } from '../../shared/utils.ts';
+import type { FavoriteCats } from '../../shared/types/types.ts';
 
 export const FavoriteCatsProvider = ({ children }: { children: ReactNode }) => {
     const [favoriteIds, setFavoriteIds] = useState(() => loadFavorites());

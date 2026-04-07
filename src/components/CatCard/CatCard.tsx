@@ -1,5 +1,5 @@
 import './CatCard.css';
-import type { CatCardData } from '../../types/types.ts';
+import type { CatCardData } from '../../shared/types/types.ts';
 import Like from '../../shared/icons/favorite_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg?react';
 import LikeFilled from '../../shared/icons/favorite_24dp_1F1F1F_FILL1_wght400_GRAD0_opsz24.svg?react';
 import { Button } from '../../shared/ui/Button/Button.tsx';

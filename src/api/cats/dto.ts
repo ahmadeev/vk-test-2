@@ -1,8 +1,8 @@
-export interface CatCardData {
+export interface CatCard {
     id: string;
     url: string;
     width: number;
     height: number;
 }
 
-export type FavoriteCats = Set<string>;
+export type CatCardResponseDto = CatCard;

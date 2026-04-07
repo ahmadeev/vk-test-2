@@ -7,6 +7,8 @@ import AllCats from './pages/AllCats/AllCats.tsx';
 import Fallback from './pages/Fallback/Fallback.tsx';
 import FavoriteCats from './pages/FavoriteCats/FavoriteCats.tsx';
 import { FavoriteCatsProvider } from './contexts/FavoriteCats/provider.tsx';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from './api/queryClient.ts';
 
 const router = createHashRouter([
     {
@@ -28,8 +30,10 @@ const router = createHashRouter([
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <FavoriteCatsProvider>
-            <RouterProvider router={router} />
-        </FavoriteCatsProvider>
+        <QueryClientProvider client={queryClient}>
+            <FavoriteCatsProvider>
+                <RouterProvider router={router} />
+            </FavoriteCatsProvider>
+        </QueryClientProvider>
     </StrictMode>,
 );
