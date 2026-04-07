@@ -11,7 +11,7 @@ export const axiosClient: AxiosInstance = axios.create({
 
 axiosClient.interceptors.request.use(
     (config) => {
-        config.headers['x-api-key'] = 'meow';
+        config.headers['x-api-key'] = 'live_AwZl1hEhiEslGuGTUOONIN7QSTXbVmbzMrghJbrUs2DwkEufYAkmYcYYAZZwW1FY';
 
         return config;
     },
