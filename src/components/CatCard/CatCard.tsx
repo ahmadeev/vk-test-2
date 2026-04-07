@@ -5,6 +5,11 @@ import { Button } from '../../shared/ui/Button/Button.tsx';
 import { useState } from 'react';
 import { useFavoriteCatsContext } from '../../contexts/FavoriteCats/hook.ts';
 import type { CatCard } from '../../api/cats/dto.ts';
+import { useMutation } from '@tanstack/react-query';
+import { favoritesService } from '../../api/favorites/service.ts';
+import { queryClient } from '../../api/queryClient.ts';
+import type { CreateFavoriteRequestDto } from '../../api/favorites/dto.ts';
+import { getUserId } from '../../shared/utils.ts';
 
 type CatCardProps = CatCard & { isLiked: boolean };
 
@@ -13,6 +18,15 @@ export default function CatCard({ id, url, isLiked }: CatCardProps) {
     const [isActive, setIsActive] = useState(isLiked);
 
     const { addFavorite, removeFavorite } = useFavoriteCatsContext();
+
+    const mutation = useMutation({
+        mutationFn: (favorite: CreateFavoriteRequestDto) => {
+            return favoritesService.put(favorite);
+        },
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: ['favorites'] });
+        },
+    });
 
     const toggleLikeButton = () => {
         setIsActive((prev) => {
@@ -27,6 +41,8 @@ export default function CatCard({ id, url, isLiked }: CatCardProps) {
 
             return newValue;
         });
+
+        mutation.mutate({ image_id: id, sub_id: getUserId() });
     };
 
     return (
