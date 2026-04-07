@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import CatCard from '../../components/CatCard/CatCard.tsx';
 import { favoritesService } from '../../api/favorites/service.ts';
 import { getUserId } from '../../shared/utils.ts';
@@ -12,6 +12,7 @@ export default function FavoriteCats() {
     const {
         data,
         fetchNextPage,
+        hasNextPage,
         isFetchingNextPage,
         isLoading,
         isError,
@@ -25,6 +26,10 @@ export default function FavoriteCats() {
         initialPageParam: 0,
         getNextPageParam: (lastPage, _2, lastPageParam) => {
             if (lastPageParam === 0) {
+                if (lastPage.length < FIRST_LIMIT) {
+                    return undefined;
+                }
+
                 return 2;
             }
 
@@ -36,20 +41,23 @@ export default function FavoriteCats() {
         },
     });
 
-    const [, setObserver] = useState<IntersectionObserver>();
+    const triggerRef = useRef<HTMLDivElement>(null);
 
-    const setEmptyDiv = useCallback((node: HTMLDivElement | null) => {
-        if (node) {
-            const obs = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) {
-                    fetchNextPage().then().catch((err: unknown) => { console.error(err); });
-                }
-            });
+    useEffect(() => {
+        const node = triggerRef.current;
 
-            obs.observe(node);
-            setObserver(obs);
-        }
-    }, [fetchNextPage]);
+        if (!node) return;
+
+        const obs = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+                fetchNextPage().catch((err: unknown) => { console.error(err); });
+            }
+        });
+
+        obs.observe(node);
+
+        return () => { obs.disconnect(); };
+    }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
     const cats = data?.pages.flatMap(page => page) ?? [];
 
@@ -83,10 +91,9 @@ export default function FavoriteCats() {
                     ))
                 )}
             </div>
-            <div
-                className="all-cats__info-loader"
-                ref={setEmptyDiv}
-            >{isFetchingNextPage && '... загружаем еще котиков ...'}</div>
+            <div ref={triggerRef} className="all-cats__info-loader">
+                {isFetchingNextPage && '... загружаем еще котиков ...'}
+            </div>
         </>
     );
 }
