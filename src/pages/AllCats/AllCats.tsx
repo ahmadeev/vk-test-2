@@ -19,7 +19,7 @@ export default function AllCats() {
     const setEmptyDiv = useCallback((node: HTMLDivElement | null) => {
         if (node) {
             const obs = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) fetchNext();
+                //if (entry.isIntersecting) fetchNext();
             });
 
             obs.observe(node);
@@ -28,17 +28,26 @@ export default function AllCats() {
     }, []);
 
     return (
-        <div className="all-cats__container">
-            {
-                cats.map(cat => {
-                    return <CatCard
-                        key={cat.id}
-                        {...cat}
-                        isLiked={isFavorite(cat.id)}
-                    />;
-                })
-            }
-            <div ref={setEmptyDiv}></div>
-        </div>
+        <>
+            <div className="all-cats__grid">
+                {
+                    cats.map(cat => {
+                        return <CatCard
+                            key={cat.id}
+                            {...cat}
+                            isLiked={isFavorite(cat.id)}
+                        />;
+                    })
+                }
+            </div>
+            <div
+                style={{
+                    width: '100%',
+                    textAlign: 'center',
+                }}
+                ref={setEmptyDiv}
+            >... загружаем еще котиков ...
+            </div>
+        </>
     );
 }

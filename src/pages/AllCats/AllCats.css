@@ -1,10 +1,12 @@
-.all-cats__container {
+.all-cats__grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+    gap: 3rem;
+    margin-bottom: 2rem;
+    box-sizing: border-box;
 }
 
-.all-cats__card, .all-cats__container > div {
+.all-cats__card, .all-cats__grid > div {
     width: 100%;
     aspect-ratio: 1 / 1;
 }
