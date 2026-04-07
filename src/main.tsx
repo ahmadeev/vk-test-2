@@ -6,6 +6,7 @@ import { createHashRouter, RouterProvider } from 'react-router-dom';
 import AllCats from './pages/AllCats/AllCats.tsx';
 import Fallback from './pages/Fallback/Fallback.tsx';
 import FavoriteCats from './pages/FavoriteCats/FavoriteCats.tsx';
+import { FavoriteCatsProvider } from './contexts/FavoriteCats/provider.tsx';
 
 const router = createHashRouter([
     {
@@ -27,6 +28,8 @@ const router = createHashRouter([
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <RouterProvider router={router} />
+        <FavoriteCatsProvider>
+            <RouterProvider router={router} />
+        </FavoriteCatsProvider>
     </StrictMode>,
 );

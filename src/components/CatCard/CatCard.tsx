@@ -4,6 +4,7 @@ import Like from '../../shared/icons/favorite_24dp_1F1F1F_FILL0_wght400_GRAD0_op
 import LikeFilled from '../../shared/icons/favorite_24dp_1F1F1F_FILL1_wght400_GRAD0_opsz24.svg?react';
 import { Button } from '../../shared/ui/Button/Button.tsx';
 import { useState } from 'react';
+import { useFavoriteCatsContext } from '../../contexts/FavoriteCats/hook.ts';
 
 type CatCardProps = CatCardData & { isLiked: boolean };
 
@@ -11,12 +12,17 @@ export default function CatCard({ id, url, isLiked }: CatCardProps) {
     const [isFilled, setIsFilled] = useState(isLiked);
     const [isActive, setIsActive] = useState(isLiked);
 
+    const { addFavorite, removeFavorite } = useFavoriteCatsContext();
+
     const toggleLikeButton = () => {
         setIsActive((prev) => {
             const newValue = !prev;
 
             if (newValue) {
                 setIsFilled(true);
+                addFavorite(id);
+            } else {
+                removeFavorite(id);
             }
 
             return newValue;

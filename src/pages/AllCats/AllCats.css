@@ -1,11 +1,10 @@
 .all-cats__container {
-    column-count: 4;
-    column-gap: 0.75rem;
-
-    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.75rem;
 }
 
 .all-cats__card, .all-cats__container > div {
-    break-inside: avoid;
-    margin-bottom: 0.75rem;
+    width: 100%;
+    aspect-ratio: 1 / 1;
 }

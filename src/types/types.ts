@@ -4,3 +4,5 @@ export interface CatCardData {
     width: number;
     height: number;
 }
+
+export type FavoriteCats = Set<string>;
