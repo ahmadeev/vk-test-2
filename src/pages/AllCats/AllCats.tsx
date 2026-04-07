@@ -3,6 +3,7 @@ import CatCard from '../../components/CatCard/CatCard.tsx';
 import { useCallback, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { catsService } from '../../api/cats/service.ts';
+import { useFavorites } from '../../hooks/useFavorites.tsx';
 
 const LIMIT = 10;
 
@@ -37,6 +38,8 @@ export default function AllCats() {
 
     const allCats = cats?.pages.flatMap(page => page) ?? [];
 
+    const { isFavorite } = useFavorites();
+
     return (
         <>
             <div className="all-cats__grid">
@@ -45,7 +48,7 @@ export default function AllCats() {
                         return <CatCard
                             key={cat.id}
                             {...cat}
-                            isLiked={false} // todo: чекать лайки до установки false
+                            isLiked={isFavorite(cat.id)} // todo: чекать лайки до установки false
                         />;
                     })
                 }
