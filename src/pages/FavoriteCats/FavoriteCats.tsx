@@ -46,7 +46,6 @@ export default function FavoriteCats() {
                             key={cat.image_id}
                             id={cat.image_id}
                             url={cat.image.url}
-                            favId={cat.id}
                             isLiked={true}
                         />;
                     })

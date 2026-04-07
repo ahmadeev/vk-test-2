@@ -5,19 +5,29 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { catsService } from '../../api/cats/service.ts';
 import { useFavorites } from '../../hooks/useFavorites.tsx';
 
-const LIMIT = 10;
+const FIRST_LIMIT = 20;
+const NEXT_LIMIT = 10;
 
 export default function AllCats() {
     const {
         data: cats,
         fetchNextPage,
         isFetchingNextPage,
+        isLoading,
     } = useInfiniteQuery({
         queryKey: ['cats'],
-        queryFn: ({ pageParam }) => catsService.findAll(pageParam, LIMIT),
+        queryFn: ({ pageParam }) => {
+            const limit = pageParam === 0 ? FIRST_LIMIT : NEXT_LIMIT;
+
+            return catsService.findAll(pageParam, limit);
+        },
         initialPageParam: 0,
         getNextPageParam: (_1, _2, lastPageParam) => {
-            return lastPageParam + LIMIT;
+            if (lastPageParam === 0) {
+                return FIRST_LIMIT;
+            }
+
+            return lastPageParam + NEXT_LIMIT;
         },
     });
 
@@ -42,13 +52,16 @@ export default function AllCats() {
 
     return (
         <>
+            {isLoading && <span>Котики загружаются!</span>}
+
             <div className="all-cats__grid">
                 {
                     allCats.map(cat => {
                         return <CatCard
                             key={cat.id}
-                            {...cat}
-                            isLiked={isFavorite(cat.id)} // todo: чекать лайки до установки false
+                            id={cat.id}
+                            url={cat.url}
+                            isLiked={isFavorite(cat.id)}
                         />;
                     })
                 }

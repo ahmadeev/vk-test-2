@@ -14,7 +14,6 @@ interface CatCardProps {
     id: string;
     url: string;
     isLiked: boolean;
-    favId?: number;
 }
 
 export default function CatCard({ id, url, isLiked }: CatCardProps) {
