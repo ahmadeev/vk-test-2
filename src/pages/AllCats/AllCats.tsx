@@ -8,7 +8,11 @@ export default function AllCats() {
         <div className="all-cats__container">
             {
                 cats.map(cat => {
-                    return <CatCard {...cat} key={cat.id} />;
+                    return <CatCard
+                        key={cat.id}
+                        {...cat}
+                        isLiked={false}
+                    />;
                 })
             }
         </div>

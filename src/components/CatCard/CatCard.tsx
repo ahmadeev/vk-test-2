@@ -3,17 +3,25 @@ import type { CatCardData } from '../../types/types.ts';
 import Like from '../../shared/icons/favorite_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.svg?react';
 import LikeFilled from '../../shared/icons/favorite_24dp_1F1F1F_FILL1_wght400_GRAD0_opsz24.svg?react';
 import { Button } from '../../shared/ui/Button/Button.tsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-export default function CatCard({ id, url }: CatCardData) {
-    const [isFilled, setIsFilled] = useState(false);
-    const [isActive, setIsActive] = useState(false);
+type CatCardProps = CatCardData & { isLiked: boolean };
 
-    useEffect(() => {
-        if (isActive) {
-            setIsFilled(true);
-        }
-    }, [isActive]);
+export default function CatCard({ id, url, isLiked }: CatCardProps) {
+    const [isFilled, setIsFilled] = useState(isLiked);
+    const [isActive, setIsActive] = useState(isLiked);
+
+    const toggleLikeButton = () => {
+        setIsActive((prev) => {
+            const newValue = !prev;
+
+            if (newValue) {
+                setIsFilled(true);
+            }
+
+            return newValue;
+        });
+    };
 
     return (
         <div className="cat-card__container">
@@ -27,7 +35,7 @@ export default function CatCard({ id, url }: CatCardData) {
                 variant={'secondary'}
                 onMouseEnter={() => { setIsFilled(true); }}
                 onMouseLeave={() => { setIsFilled(isActive); }}
-                onClick={() => { setIsActive((prev) => !prev); } }
+                onClick={toggleLikeButton}
             >
                 {isFilled ? <LikeFilled /> : <Like />}
             </Button>
