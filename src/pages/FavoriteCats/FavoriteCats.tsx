@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import CatCard from '../../components/CatCard/CatCard.tsx';
 import { favoritesService } from '../../api/favorites/service.ts';
 import { getUserId } from '../../shared/utils.ts';
+import CatCardSkeleton from '../../components/CatCard/CatCardSkeleton/CatCardSkeleton.tsx';
 
 const FIRST_LIMIT = 20;
 const NEXT_LIMIT = 10;
@@ -62,19 +63,25 @@ export default function FavoriteCats() {
 
     return (
         <>
-            {isLoading && <span>Котики загружаются!</span>}
-
             <div className="all-cats__grid">
-                {
-                    cats.map(cat => {
-                        return <CatCard
+                {isLoading
+                    ? Array.from({ length: FIRST_LIMIT }).map((_, i) => (
+                        <CatCardSkeleton key={i} />
+                    ))
+                    : cats.map(cat => (
+                        <CatCard
                             key={cat.image_id}
                             id={cat.image_id}
                             url={cat.image.url}
                             isLiked={true}
-                        />;
-                    })
+                        />
+                    ))
                 }
+                {isFetchingNextPage && (
+                    Array.from({ length: NEXT_LIMIT }).map((_, i) => (
+                        <CatCardSkeleton key={`next-${String(i)}`} />
+                    ))
+                )}
             </div>
             <div
                 className="all-cats__info-loader"
