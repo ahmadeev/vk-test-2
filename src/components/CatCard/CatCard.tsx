@@ -4,27 +4,51 @@ import LikeFilled from '../../shared/icons/favorite_24dp_1F1F1F_FILL1_wght400_GR
 import { Button } from '../../shared/ui/Button/Button.tsx';
 import { useState } from 'react';
 import { useFavoriteCatsContext } from '../../contexts/FavoriteCats/hook.ts';
-import type { CatCard } from '../../api/cats/dto.ts';
 import { useMutation } from '@tanstack/react-query';
 import { favoritesService } from '../../api/favorites/service.ts';
 import { queryClient } from '../../api/queryClient.ts';
 import type { CreateFavoriteRequestDto } from '../../api/favorites/dto.ts';
 import { getUserId } from '../../shared/utils.ts';
 
-type CatCardProps = CatCard & { isLiked: boolean };
+interface CatCardProps {
+    id: string;
+    url: string;
+    isLiked: boolean;
+    favId?: number;
+}
 
-export default function CatCard({ id, url, isLiked }: CatCardProps) {
+export default function CatCard({ id, url, isLiked, favId }: CatCardProps) {
     const [isFilled, setIsFilled] = useState(isLiked);
     const [isActive, setIsActive] = useState(isLiked);
 
     const { addFavorite, removeFavorite } = useFavoriteCatsContext();
 
-    const mutation = useMutation({
+    const addToFavs = useMutation({
         mutationFn: (favorite: CreateFavoriteRequestDto) => {
             return favoritesService.put(favorite);
         },
         onSuccess: () => {
             void queryClient.invalidateQueries({ queryKey: ['favorites'] });
+        },
+        onError: () => {
+            removeFavorite(id);
+        },
+    });
+
+    const removeFromFavs = useMutation({
+        mutationFn: (favId: number | undefined) => {
+            if (!favId) {
+                return Promise.reject(new Error('no favorite id'));
+            }
+
+            return favoritesService.delete(favId);
+        },
+        onSuccess: () => {
+            void queryClient.invalidateQueries({ queryKey: ['favorites'] });
+        },
+        onError: () => {
+            setIsFilled(true);
+            addFavorite(id);
         },
     });
 
@@ -35,14 +59,14 @@ export default function CatCard({ id, url, isLiked }: CatCardProps) {
             if (newValue) {
                 setIsFilled(true);
                 addFavorite(id);
+                addToFavs.mutate({ image_id: id, sub_id: getUserId() });
             } else {
                 removeFavorite(id);
+                removeFromFavs.mutate(favId);
             }
 
             return newValue;
         });
-
-        mutation.mutate({ image_id: id, sub_id: getUserId() });
     };
 
     return (

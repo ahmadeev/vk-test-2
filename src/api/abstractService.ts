@@ -37,4 +37,16 @@ export abstract class AbstractService<RQ, RS> {
             return null;
         }
     }
+
+    async delete(id: string | number): Promise<unknown> {
+        try {
+            const res = await axiosClient.delete<unknown>(`${this.url}/${String(id)}`);
+
+            return res.data;
+        } catch (error) {
+            console.log(error);
+
+            return null;
+        }
+    }
 }

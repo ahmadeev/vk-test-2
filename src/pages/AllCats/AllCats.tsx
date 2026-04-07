@@ -1,6 +1,5 @@
 import './AllCats.css';
 import CatCard from '../../components/CatCard/CatCard.tsx';
-import { useFavoriteCatsContext } from '../../contexts/FavoriteCats/hook.ts';
 import { useCallback, useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { catsService } from '../../api/cats/service.ts';
@@ -8,11 +7,10 @@ import { catsService } from '../../api/cats/service.ts';
 const LIMIT = 10;
 
 export default function AllCats() {
-    const { isFavorite } = useFavoriteCatsContext();
-
     const {
         data: cats,
         fetchNextPage,
+        isFetchingNextPage,
     } = useInfiniteQuery({
         queryKey: ['cats'],
         queryFn: ({ pageParam }) => catsService.findAll(pageParam, LIMIT),
@@ -47,19 +45,15 @@ export default function AllCats() {
                         return <CatCard
                             key={cat.id}
                             {...cat}
-                            isLiked={isFavorite(cat.id)}
+                            isLiked={false} // todo: чекать лайки до установки false
                         />;
                     })
                 }
             </div>
             <div
-                style={{
-                    width: '100%',
-                    textAlign: 'center',
-                }}
+                className="all-cats__info-loader"
                 ref={setEmptyDiv}
-            >... загружаем еще котиков ...
-            </div>
+            >{isFetchingNextPage && '... загружаем еще котиков ...'}</div>
         </>
     );
 }
