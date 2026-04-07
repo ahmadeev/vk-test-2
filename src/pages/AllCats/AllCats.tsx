@@ -10,7 +10,7 @@ const NEXT_LIMIT = 10;
 
 export default function AllCats() {
     const {
-        data: cats,
+        data,
         fetchNextPage,
         isFetchingNextPage,
         isLoading,
@@ -47,7 +47,7 @@ export default function AllCats() {
         }
     }, [fetchNextPage]);
 
-    const allCats = cats?.pages.flatMap(page => page) ?? [];
+    const cats = data?.pages.flatMap(page => page) ?? [];
 
     const { isFavorite } = useFavorites();
 
@@ -65,7 +65,7 @@ export default function AllCats() {
 
             <div className="all-cats__grid">
                 {
-                    allCats.map(cat => {
+                    cats.map(cat => {
                         return <CatCard
                             key={cat.id}
                             id={cat.id}
