@@ -2,6 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import CatCard from '../../components/CatCard/CatCard.tsx';
 import { favoritesService } from '../../api/favorites/service.ts';
+import { getUserId } from '../../shared/utils.ts';
 
 const LIMIT = 10;
 
@@ -12,7 +13,7 @@ export default function FavoriteCats() {
         isFetchingNextPage,
     } = useInfiniteQuery({
         queryKey: ['favorites'],
-        queryFn: ({ pageParam }) => favoritesService.findAll(pageParam, LIMIT),
+        queryFn: ({ pageParam }) => favoritesService.findAll(pageParam, LIMIT, getUserId()),
         initialPageParam: 0,
         getNextPageParam: (_1, _2, lastPageParam) => {
             return lastPageParam + LIMIT;
