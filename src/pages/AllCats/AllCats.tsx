@@ -14,6 +14,7 @@ export default function AllCats() {
         fetchNextPage,
         isFetchingNextPage,
         isLoading,
+        isError,
     } = useInfiniteQuery({
         queryKey: ['cats'],
         queryFn: ({ pageParam }) => {
@@ -49,6 +50,14 @@ export default function AllCats() {
     const allCats = cats?.pages.flatMap(page => page) ?? [];
 
     const { isFavorite } = useFavorites();
+
+    if (isError) {
+        return (
+            <>
+                <span>Котики не были загружены :(</span>
+            </>
+        );
+    }
 
     return (
         <>

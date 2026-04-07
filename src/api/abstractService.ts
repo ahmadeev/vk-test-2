@@ -22,7 +22,7 @@ export abstract class AbstractService<RQ, RS> {
         } catch (error) {
             console.log(error);
 
-            return [];
+            throw new Error('Ошибка загрузки');
         }
     }
 
@@ -34,7 +34,7 @@ export abstract class AbstractService<RQ, RS> {
         } catch (error) {
             console.log(error);
 
-            return null;
+            throw new Error('Ошибка создания');
         }
     }
 
@@ -46,7 +46,7 @@ export abstract class AbstractService<RQ, RS> {
         } catch (error) {
             console.log(error);
 
-            return null;
+            throw new Error('Ошибка удаления');
         }
     }
 }

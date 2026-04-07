@@ -11,6 +11,8 @@ export default function FavoriteCats() {
         data,
         fetchNextPage,
         isFetchingNextPage,
+        isLoading,
+        isError,
     } = useInfiniteQuery({
         queryKey: ['favorites'],
         queryFn: ({ pageParam }) => favoritesService.findAll(pageParam, LIMIT, getUserId()),
@@ -37,8 +39,18 @@ export default function FavoriteCats() {
 
     const cats = data?.pages.flatMap(page => page) ?? [];
 
+    if (isError) {
+        return (
+            <>
+                <span>Котики не были загружены :(</span>
+            </>
+        );
+    }
+
     return (
         <>
+            {isLoading && <span>Котики загружаются!</span>}
+
             <div className="all-cats__grid">
                 {
                     cats.map(cat => {
