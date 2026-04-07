@@ -1,12 +1,16 @@
 import { useMemo } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { type InfiniteData, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import { favoritesService } from '../api/favorites/service.ts';
 import { getUserId } from '../shared/utils.ts';
+import type { Favorite } from '../api/favorites/dto.ts';
 
 const FIRST_LIMIT = 20;
 const NEXT_LIMIT = 10;
 
 export const useFavorites = () => {
+    const queryClient = useQueryClient();
+    const existingData: InfiniteData<Favorite[]> | undefined = queryClient.getQueryData(['favorites']);
+
     const {
         data,
     } = useInfiniteQuery({
@@ -22,12 +26,13 @@ export const useFavorites = () => {
                 return 2;
             }
 
-            if (lastPage.length === 0) {
-                return lastPageParam;
+            if (lastPage.length < NEXT_LIMIT) {
+                return undefined;
             }
 
             return lastPageParam + 1;
         },
+        enabled: !existingData,
     });
 
     const favorites = useMemo(() => {
@@ -46,8 +51,5 @@ export const useFavorites = () => {
         return favorites.get(id);
     };
 
-    return {
-        isFavorite,
-        getFavoriteId,
-    };
+    return { isFavorite, getFavoriteId };
 };

@@ -27,8 +27,8 @@ export default function FavoriteCats() {
                 return 2;
             }
 
-            if (lastPage.length === 0) {
-                return lastPageParam;
+            if (lastPage.length < NEXT_LIMIT) {
+                return undefined;
             }
 
             return lastPageParam + 1;
