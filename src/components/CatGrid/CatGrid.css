@@ -1,4 +1,4 @@
-.all-cats__grid {
+.cats-roll__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
     gap: 3rem;
@@ -6,12 +6,12 @@
     box-sizing: border-box;
 }
 
-.all-cats__card, .all-cats__grid > div {
+.cats-roll__card, .cats-roll__grid > div {
     width: 100%;
     aspect-ratio: 1 / 1;
 }
 
-.all-cats__info-loader {
+.cats-roll__info-loader {
     width: 100%;
     text-align: center;
 }

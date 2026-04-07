@@ -8,13 +8,14 @@ export abstract class AbstractService<RQ, RS> {
         this.url = url;
     }
 
-    async findAll(page: number, limit: number, subId?: string): Promise<RQ[]> {
+    async findAll(page: number, limit: number, subId?: string, order?: 'ASC' | 'DESC'): Promise<RQ[]> {
         try {
             const res = await axiosClient.get<RQ[]>(this.url, {
                 params: {
                     page,
                     limit,
                     sub_id: subId,
+                    order,
                 },
             });
 

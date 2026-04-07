@@ -13,14 +13,15 @@ import { useFavorites } from '../../hooks/useFavorites.tsx';
 interface CatCardProps {
     id: string;
     url: string;
-    isLiked: boolean;
 }
 
-export default function CatCard({ id, url, isLiked }: CatCardProps) {
+export default function CatCard({ id, url }: CatCardProps) {
+    const { getFavoriteId, isFavorite } = useFavorites();
+
+    const isLiked = isFavorite(id);
+
     const [isFilled, setIsFilled] = useState(isLiked);
     const [isActive, setIsActive] = useState(isLiked);
-
-    const { getFavoriteId } = useFavorites();
 
     const favId = getFavoriteId(id) as number;
 

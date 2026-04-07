@@ -9,3 +9,6 @@ export function getUserId() {
 
     return userId;
 }
+
+export const FIRST_LIMIT = 20;
+export const NEXT_LIMIT = 10;
